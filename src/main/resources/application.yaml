@@ -12,13 +12,15 @@ spring:
 
   jpa:
     hibernate:
-      dialect: org.hibernate.dialect.MySQL5Dialect
+      dialect: org.hibernate.dialect.MySQL8Dialect
       show-sql: true
+      ddl-auto: create-drop
       hdm2ddl.auto: create
 
-thymeleaf:
-  enabled: true
-  encoding: UTF-8
-  mode: HTML5
-  prefix: classpath:/templates
-  suffix: .html
+
+  thymeleaf:
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
