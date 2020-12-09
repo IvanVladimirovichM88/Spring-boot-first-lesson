@@ -28,7 +28,7 @@ public class ProductFilter {
 
         if(params.containsKey("max_price")&&!params.get("max_price").isEmpty()){
             Integer maxPrice = Integer.parseInt(params.get("max_price"));
-            specification = specification.and(ProductSpecification.priceGreaterOrEqualsThan(maxPrice));
+            specification = specification.and(ProductSpecification.priceLesserOrEqualsThan(maxPrice));
             filterDefinitionBuilder.append("&max_price=").append(maxPrice);
         }
         filterDefinition = filterDefinitionBuilder.toString();
