@@ -47,8 +47,8 @@
             <th>ID</th>
             <th>Код заказ</th>
             <th>Клиент</th>
-            <th>Товар</th>
             <th>Цена</th>
+            <th>Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -56,8 +56,10 @@
             <td th:text="${o.id}"/>
             <td th:text="${o.code}"/>
             <td th:text="${o.customer.name}"/>
-            <td th:text="${o.product.title}"/>
-            <td th:text="#{products.price(${o.currentPrice})}"/>
+            <td th:text="#{text.products.price(${o.totalPrice})}"/>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/orders/remove/' + ${o.id}}">Удалить</a>
+            </td>
         </tr>
         </tbody>
     </table>

@@ -1,10 +1,12 @@
 package ru.geekbrains.lesson.store.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "order_tbl")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
@@ -13,16 +15,15 @@ public class Order {
     @Column(name = "code_fld")
     private String code;
 
-    @Column(name = "currentPrice_fld")
-    private int currentPrice;
+    @Column(name = "total_price_fld")
+    private Double totalPrice;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<OrderEntry> orderEntries;
     ////////////////////////////////////////////////////////////
 
 
@@ -50,19 +51,19 @@ public class Order {
         this.code = code;
     }
 
-    public int getCurrentPrice() {
-        return currentPrice;
+    public Double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setCurrentPrice(int currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public Product getProduct() {
-        return product;
+    public List<OrderEntry> getOrderEntries() {
+        return orderEntries;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setOrderEntries(List<OrderEntry> orderEntries) {
+        this.orderEntries = orderEntries;
     }
 }

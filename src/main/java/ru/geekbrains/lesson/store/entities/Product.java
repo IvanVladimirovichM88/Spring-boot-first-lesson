@@ -23,14 +23,11 @@ public class Product {
     private String title;
 
     @Column(name = "price_fld")
-    private int price;
-
-    @OneToMany(mappedBy = "product", orphanRemoval = true)
-    private List<Order> orders;
+    private Double price;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date_fld")
+    @Column(name = "create_date_fld", updatable = false)
     private Date createDate;
 
     @UpdateTimestamp
@@ -41,7 +38,7 @@ public class Product {
 
     public Product(){}
 
-    public Product(String title, int price){
+    public Product(String title, Double price){
         this.title = title;
         this.price = price;
     }
@@ -62,20 +59,12 @@ public class Product {
         this.title = title;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 
     public Date getCreateDate() {
@@ -94,12 +83,4 @@ public class Product {
         this.modifyDate = modifyDate;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                '}';
-    }
 }

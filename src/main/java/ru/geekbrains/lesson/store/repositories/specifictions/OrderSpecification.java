@@ -6,12 +6,12 @@ import ru.geekbrains.lesson.store.entities.Order;
 public class OrderSpecification {
     public static Specification<Order> priceGreaterOrEqualsThan(int minPrice){
         return (Specification<Order>)(root, criteriaQuery, criteriaBuilder)->
-                criteriaBuilder.greaterThanOrEqualTo(root.get("currentPrice"),minPrice);
+                criteriaBuilder.greaterThanOrEqualTo(root.get("totalPrice"),minPrice);
     }
 
     public static Specification<Order> priceLesserOrEqualsThan(int maxPrice){
         return (Specification<Order>)(root, criteriaQuery, criteriaBuilder)->
-                criteriaBuilder.lessThanOrEqualTo(root.get("currentPrice"),maxPrice);
+                criteriaBuilder.lessThanOrEqualTo(root.get("totalPrice"),maxPrice);
     }
 
     public static Specification<Order> codeLike(String codePart){

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekbrains.lesson.store.entities.Order;
@@ -28,9 +29,7 @@ public class OrderController {
             @RequestParam Map<String,String> params
             ){
 
-        if (page<1){
-            page=1;
-        }
+        page = (page < 1) ? 1 : page;
         OrderFilter orderFilter = new OrderFilter(params);
         Page<Order> orders = orderService.findAll(orderFilter.getSpecification(), page-1, 3);
         model.addAttribute("orders",orders);
@@ -38,5 +37,11 @@ public class OrderController {
         return "orders";
     }
 
-
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Long id,
+                         Model model
+    ){
+        orderService.remove(id);
+        return "redirect:/orders";
+    }
 }
