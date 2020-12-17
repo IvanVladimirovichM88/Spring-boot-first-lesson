@@ -25,6 +25,10 @@ public class Product {
     @Column(name = "price_fld")
     private Double price;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date_fld", updatable = false)
@@ -83,4 +87,11 @@ public class Product {
         this.modifyDate = modifyDate;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

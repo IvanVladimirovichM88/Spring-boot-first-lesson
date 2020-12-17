@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Каталог товаров</title>
+    <title >Каталог товаров</title>
     <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
     <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
 </head>
@@ -14,9 +14,10 @@
 <div class="container">
     <div th:replace="~{fragments/navigation :: navigation(Products)}" />
     <h1>Каталог товаров</h1>
+    <h2 th:text= ${categoryTitle}></h2>
 
     <h3>Фильтр</h3>
-    <form method="get" th:action="@{/products}">
+    <form method="get" th:action="@{/products}" >
         <div class="form-group col-md-6">
             <label for="titleInput">Название</label>
             <input class="form-control" th:value="${param.title != null ? param.title : null}" name="title" type="text" id="titleInput">
@@ -29,6 +30,8 @@
             <label for="maxPriceInput">Максимальная цена</label>
             <input class="form-control" th:value="${param.max_price != null ? param.max_price : null}" name="max_price" type="number" id="maxPriceInput">
         </div>
+
+        <input hidden="hidden" th:value="${param.category_id}" name="category_id" type="number">
 
         <button class="btn btn-primary" type="submit">Применить</button>
         <a class="btn btn-primary" th:href="@{/products}">Очистить фильтр</a>
