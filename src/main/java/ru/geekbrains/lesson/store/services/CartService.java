@@ -55,12 +55,12 @@ public class CartService {
             if(orderEntry.getProduct().getId().equals(productId)){
                 if (orderEntry.getQuantity() - 1 == 0) {
                     iterator.remove();
+                }else{
+                    orderEntry.setQuantity(orderEntry.getQuantity() - 1);
                 }
-            }else{
-                orderEntry.setQuantity(orderEntry.getQuantity() - 1);
+                recalculate();
+                return;
             }
-            recalculate();
-            return;
         }
     }
 
@@ -93,7 +93,7 @@ public class CartService {
             Double price = orderEntry.getBasePrice() * orderEntry.getQuantity();
             orderEntry.setTotalPrice(price);
             totalPrice += price;
-            totalQuantity +=orderEntry.getQuantity();
+            totalQuantity += orderEntry.getQuantity();
         }
     }
 
