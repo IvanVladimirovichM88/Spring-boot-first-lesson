@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Каталог товаров</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Cart)}" />
+    <h1>Корзина</h1>
+
+    <br>
+    <span th:if="${@cartService.orderEntries.isEmpty()}">Ваша корзина пуста!</span>
+    <table th:if="${!@cartService.orderEntries.isEmpty()}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Название</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderEntry : ${@cartService.orderEntries}">
+            <td th:text="${orderEntry.product.title}"/>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/cart/removeOne/' + ${orderEntry.product.id}}">-</a>
+                <span th:text="${orderEntry.quantity}"/>
+                <a class="btn btn-success" th:href="@{'/cart/add/' + ${orderEntry.product.id}}">+</a>
+                <a class="btn btn-danger" th:href="@{'/cart/removeAll/' + ${orderEntry.product.id}}">X</a>
+            </td>
+            <td th:text="${orderEntry.quantity + ' x ' + orderEntry.basePrice + ' = ' + orderEntry.totalPrice}"/>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Итого:</td>
+            <td th:text="${@cartService.totalPrice}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${!@cartService.orderEntries.isEmpty()}">
+        <a class="btn btn-primary" th:href="@{/cart/createOrder}" th:text="#{text.cart.create}"></a>
+        <a class="btn btn-danger" th:href="@{/cart/clearCart}" th:text="#{text.cart.clear}"></a>
+    </div>
+</div>
+</body>
+</html>

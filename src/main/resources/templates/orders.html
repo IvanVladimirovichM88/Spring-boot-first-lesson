@@ -16,14 +16,39 @@
 <div class="container">
     <div th:replace="~{fragments/navigation :: navigation(Orders)}" />
     <h1>Список заказов</h1>
+
+    <h3>Фильтр</h3>
+    <form method="get" th:action="@{/orders}">
+        <div class="form-group col-md-6">
+            <label for="codeInput">Код</label>
+            <input class="form-control" th:value="${param.code != null ? param.code : null}" name="code" type="text" id="codeInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="nameInput">Имя</label>
+            <input class="form-control" th:value="${param.name != null ? param.name : null}" name="name" type="text" id="nameInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="minPriceInput">Минимальная цена</label>
+            <input class="form-control" th:value="${param.min_price != null ? param.min_price : null}" name="min_price" type="number" id="minPriceInput">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="maxPriceInput">Максимальная цена</label>
+            <input class="form-control" th:value="${param.max_price != null ? param.max_price : null}" name="max_price" type="number" id="maxPriceInput">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Фильтровать</button>
+        <a class="btn btn-primary" th:href="@{/orders}">Очистить фильтр</a>
+    </form>
+
+    <br>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>Код заказ</th>
             <th>Клиент</th>
-            <th>Товар</th>
             <th>Цена</th>
+            <th>Действия</th>
         </tr>
         </thead>
         <tbody>
@@ -31,11 +56,33 @@
             <td th:text="${o.id}"/>
             <td th:text="${o.code}"/>
             <td th:text="${o.customer.name}"/>
-            <td th:text="${o.product.title}"/>
-            <td th:text="${o.currentPrice}"/>
+            <td th:text="#{text.products.price(${o.totalPrice})}"/>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/orders/remove/' + ${o.id}}">Удалить</a>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${orders.isFirst() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{'/orders?p=' + ${orders.previousOrFirstPageable().getPageNumber() + 1} + ${filterDefinition}}">Назад</a>
+            </li>
+
+            <li class="page-item" th:classappend="${orders.getNumber() + 1 == i ? 'active' : ''}"
+                th:each="i : ${#numbers.sequence(1, orders.getTotalPages())}">
+                <a class="page-link" th:text="${i}" th:href="@{'/orders?p=' + ${i} + ${filterDefinition}}"></a>
+            </li>
+
+            <li class="page-item"  th:classappend="${orders.isLast() ? 'disabled' : ''}">
+                <a class="page-link"
+                   th:href="@{'/orders?p='+ ${orders.nextOrLastPageable().getPageNumber() + 1} + ${filterDefinition}}">Вперед</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 
 </body>

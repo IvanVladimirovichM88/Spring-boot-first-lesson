@@ -31,4 +31,8 @@ public class ProductService {
     public Product addProduct(Product product){
         return productRepository.save(product);
     }
+
+    public void saveOrUpdate(Product product) {
+        productRepository.save(product);
+    }
 }
