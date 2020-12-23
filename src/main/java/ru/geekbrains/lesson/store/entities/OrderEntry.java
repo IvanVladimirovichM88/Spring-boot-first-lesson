@@ -1,10 +1,11 @@
 package ru.geekbrains.lesson.store.entities;
 
 
-import ru.geekbrains.lesson.store.utils.OrderFilter;
+import com.fasterxml.jackson.annotation.JsonView;
+import ru.geekbrains.lesson.store.entities.views.CommonView;
+import ru.geekbrains.lesson.store.entities.views.OrderEntryView;
 
 import javax.persistence.*;
-import java.util.Locale;
 
 @Entity
 @Table(name = "order_item_tbl")
@@ -13,23 +14,29 @@ public class OrderEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
+    @JsonView(CommonView.Id.class)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonView(OrderEntryView.Entry.class)
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonView(OrderEntryView.Order.class)
     private Order order;
 
     @Column(name = "quantity_fld")
+    @JsonView(OrderEntryView.Entry.class)
     private int quantity;
 
     @Column(name = "price_per_product_fld")
+    @JsonView(OrderEntryView.Entry.class)
     private Double basePrice;
 
     @Column(name = "price_fld")
+    @JsonView(OrderEntryView.Entry.class)
     private Double totalPrice;
     //////////////////////////////////////////////////////
 

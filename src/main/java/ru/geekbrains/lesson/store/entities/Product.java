@@ -1,43 +1,37 @@
 package ru.geekbrains.lesson.store.entities;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.fasterxml.jackson.annotation.JsonView;
+import ru.geekbrains.lesson.store.entities.views.CommonView;
+import ru.geekbrains.lesson.store.entities.views.ProductView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "product_tbl")
-public class Product {
+public class Product extends AbstractItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
+    @JsonView(CommonView.Id.class)
     private Long id;
 
     @NotEmpty
     @Size(min = 3,max=20, message = "Title must have 3-20 characters")
     @Column(name = "title_fld")
+    @JsonView(ProductView.IdName.class)
     private String title;
 
     @Column(name = "price_fld")
+    @JsonView(ProductView.FullProduct.class)
     private Double price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonView(ProductView.FullProduct.class)
     private Category category;
 
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date_fld", updatable = false)
-    private Date createDate;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modify_date_fld")
-    private Date modifyDate;
     ////////////////////////////////////////////////////////////////////////
 
     public Product(){}
@@ -69,22 +63,6 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
     }
 
     public Category getCategory() {

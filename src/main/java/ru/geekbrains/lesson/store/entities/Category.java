@@ -1,5 +1,8 @@
 package ru.geekbrains.lesson.store.entities;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import ru.geekbrains.lesson.store.entities.views.CommonView;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +13,13 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
+    @JsonView(CommonView.Id.class)
     private Long id;
 
     @Column(name = "title_fld")
     private String title;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<Product> products;
     /////////////////////////////////////////////////
 
