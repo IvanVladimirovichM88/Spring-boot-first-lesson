@@ -5,6 +5,7 @@ import ru.geekbrains.lesson.store.entities.views.CommonView;
 import ru.geekbrains.lesson.store.entities.views.CustomerView;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,8 @@ public class Customer extends AbstractItem {
     private String name;
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
+    @JsonView(CustomerView.IdNameOrders.class)
+    private List<Order> orders = new ArrayList<>();
     ///////////////////////////////////////////////////////
 
     public Customer(){}

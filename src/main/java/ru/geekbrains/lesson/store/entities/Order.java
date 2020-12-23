@@ -5,6 +5,7 @@ import ru.geekbrains.lesson.store.entities.views.CommonView;
 import ru.geekbrains.lesson.store.entities.views.OrderView;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,7 @@ public class Order {
     private String code;
 
     @Column(name = "total_price_fld")
-    @JsonView(OrderView.IdCodePriceCustomer.class)
+    @JsonView(OrderView.Price.class)
     private Double totalPrice;
 
     @ManyToOne
@@ -31,8 +32,8 @@ public class Order {
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonView({OrderView.IdCodeCustomerOrderEntry.class})
-    private List<OrderEntry> orderEntries;
+    @JsonView(OrderView.OrderEntry.class)
+    private List<OrderEntry> orderEntries = new ArrayList<>();
     ////////////////////////////////////////////////////////////
 
 

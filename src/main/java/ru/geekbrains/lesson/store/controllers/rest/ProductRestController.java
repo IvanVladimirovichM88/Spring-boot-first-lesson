@@ -24,7 +24,7 @@ public class ProductRestController {
         this.productFacade = productFacade;
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/json", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> productsToJson(){
         return productService.findAll();
     }

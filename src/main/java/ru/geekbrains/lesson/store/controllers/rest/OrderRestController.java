@@ -40,4 +40,10 @@ public class OrderRestController {
     public List<Order> ordersIdCodeCustomerToJson(){
         return orderService.findAll();
     }
+
+    @GetMapping(value = "/idCodeCustomerOrderEntry")
+    @JsonView(OrderView.IdCodeCustomerOrderEntry.class)
+    public List<Order> orderIdCOdeCustomerOrderEntryToJson(){
+        return orderService.findAll();
+    }
 }

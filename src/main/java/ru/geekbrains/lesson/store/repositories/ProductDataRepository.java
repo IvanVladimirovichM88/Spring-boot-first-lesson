@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ProductDataRepository  extends JpaRepository<Product,Long> {
 
-    @Query("SELECT new ru.geekbrains.lesson.store.data.ProductData(p) FRoM Product p ")
+    @Query("SELECT new ru.geekbrains.lesson.store.data.ProductData(p) FROM Product p ")
     List<ProductData> findAllProductData();
 }
