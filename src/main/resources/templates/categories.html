@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Каталог товаров</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Categories)}" />
+    <h1>Категории</h1>
+
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Наименоване</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"/>
+            <td th:text="${category.title}"/>
+            <td>
+                <a class="btn btn-success" th:href="@{'/products?category_id='+${category.id}}">Показать товары</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

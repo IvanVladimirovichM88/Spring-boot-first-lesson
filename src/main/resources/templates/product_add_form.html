@@ -13,24 +13,28 @@
 
 <body>
     <div class="container">
-        <h1>Добавить новый товар</h1>
-        <!--/*@thymesVar id="customer" type="com.geekbrains.spring.lesson5.entities.Product"*/-->
-        <form method="post" th:action="@{/products/add}" th:object="${product}">
-            <div class="form-group col-md-6">
-                <label for="title">Название</label>
-                <input class="form-control" name="title" type="text" id="title" th:field="*{title}">
-                <p th:class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect title</p>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div th:replace="~{fragments/navigation :: navigation(Products)}" />
+                <h1>Добавить новый товар</h1>
+                <!--/*@thymesVar id="customer" type="com.geekbrains.spring.lesson6.entities.Product"*/-->
+                <form method="post" th:action="@{/products/add}" th:object="${product}">
+                    <div class="form-group col-md-6">
+                        <label for="title">Название</label>
+                        <input class="form-control" name="title" type="text" id="title" th:field="*{title}">
+                        <p th:class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Incorrect title</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="price">Цена товара</label>
+                        <input class="form-control" name="price" type="number" id="price">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Добавить</button>
+                    <a class="btn btn-primary" th:href="@{/products}">Очистить</a>
+                </form>
+                <br>
+                <a th:href="@{/}">на Главную страницу</a>
             </div>
-            <div class="form-group col-md-6">
-                <label for="price">Цена товара</label>
-                <input class="form-control" name="price" type="number" id="price">
-            </div>
-            <button class="btn btn-primary" type="submit">Добавить</button>
-            <a class="btn btn-primary" th:href="@{/products}">Очистить</a>
-        </form>
-
-        <br>
-        <a th:href="@{/}">на Главную страницу</a>
+        </div>
     </div>
 </body>
 </html>
