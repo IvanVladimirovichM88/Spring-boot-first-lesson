@@ -29,7 +29,8 @@
             <td th:text="${category.id}"/>
             <td th:text="${category.title}"/>
             <td>
-                <a class="btn btn-success" th:href="@{'/products?category_id='+${category.id}}">Показать товары</a>
+                <a class="btn btn-success" th:href="@{'/admin/products?category_id='+${category.id}}">Показать товары</a>
+                <a class="btn btn-danger" th:href="@{'/admin/category/edit/'+${category.id}}">Переименовать</a>
             </td>
         </tr>
         </tbody>

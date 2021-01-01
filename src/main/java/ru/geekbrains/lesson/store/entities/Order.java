@@ -27,9 +27,8 @@ public class Order {
     private Double totalPrice;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    @JsonView(OrderView.IdCodePriceCustomer.class)
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonView(OrderView.OrderEntry.class)
@@ -45,12 +44,12 @@ public class Order {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public User getUser() {
+        return user;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getCode() {

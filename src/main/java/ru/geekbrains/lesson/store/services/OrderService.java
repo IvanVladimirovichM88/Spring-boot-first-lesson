@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.lesson.store.entities.Order;
+import ru.geekbrains.lesson.store.entities.User;
 import ru.geekbrains.lesson.store.repositories.OrderRepository;
 
 import java.util.List;
@@ -16,11 +17,13 @@ public class OrderService {
 
     private OrderRepository orderRepository;
     private CartService cartService;
+    private UserService  userService;
 
 
-    public OrderService(OrderRepository orderRepository, CartService cartService){
+    public OrderService(OrderRepository orderRepository, CartService cartService,UserService userService){
         this.orderRepository = orderRepository;
         this.cartService = cartService;
+        this.userService = userService;
     }
 
     public List<Order> findAll(){
@@ -34,7 +37,9 @@ public class OrderService {
     public Order createOrder(){
         Order order = new Order();
         order.setCode(UUID.randomUUID().toString().substring(0,4));
-        order.setCustomer(cartService.getCustomer());
+        User user = userService.getCurrentUser();
+        System.out.println("\n--->> createOrder user  = " + user);
+        order.setUser(user);
         order.setTotalPrice(cartService.getTotalPrice());
         order.setOrderEntries(cartService.getOrderEntries());
         cartService.getOrderEntries().stream().forEach(orderEntry -> {

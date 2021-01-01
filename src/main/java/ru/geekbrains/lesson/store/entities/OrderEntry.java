@@ -49,6 +49,13 @@ public class OrderEntry {
         this.basePrice = product.getPrice();
         this.totalPrice = product.getPrice();
     }
+    public OrderEntry(Product product, Order order){
+        this.product = product;
+        this.quantity = 1;
+        this.basePrice = product.getPrice();
+        this.totalPrice = product.getPrice();
+        this.order = order;
+    }
 
     public Long getId() {
         return id;

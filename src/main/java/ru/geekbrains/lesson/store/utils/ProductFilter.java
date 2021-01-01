@@ -41,6 +41,7 @@ public class ProductFilter {
         filterDefinition = filterDefinitionBuilder.toString();
     }
 
+
     public Specification<Product> getSpecification() {
         return specification;
     }

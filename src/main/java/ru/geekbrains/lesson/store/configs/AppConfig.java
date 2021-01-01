@@ -1,4 +1,4 @@
-package ru.geekbrains.lesson.store;
+package ru.geekbrains.lesson.store.configs;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

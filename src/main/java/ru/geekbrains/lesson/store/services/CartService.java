@@ -4,10 +4,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
-import ru.geekbrains.lesson.store.entities.Customer;
 import ru.geekbrains.lesson.store.entities.OrderEntry;
 import ru.geekbrains.lesson.store.entities.Product;
-import ru.geekbrains.lesson.store.repositories.CustomerRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -18,22 +16,15 @@ import java.util.List;
 @Scope(value = WebApplicationContext.SCOPE_SESSION,
         proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartService {
-    private CustomerRepository customerRepository;
 
     private List<OrderEntry> orderEntries;
     private Double totalPrice = 0.0;
     private Integer totalQuantity = 0;
-    private Customer customer;
     ////////////////////////////////////////////////////
 
-    public CartService(CustomerRepository customerRepository){
-        this.customerRepository = customerRepository;
-    }
-
     @PostConstruct
-    public void  init(){
+    public void init() {
         orderEntries = new ArrayList<>();
-        customer = customerRepository.getOne(1l);
     }
 
     public void addOneAndUpdate(Product product){
@@ -97,14 +88,6 @@ public class CartService {
         }
     }
 
-    public CustomerRepository getCustomerRepository() {
-        return customerRepository;
-    }
-
-    public void setCustomerRepository(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
-
     public List<OrderEntry> getOrderEntries() {
         return orderEntries;
     }
@@ -129,12 +112,5 @@ public class CartService {
         this.totalQuantity = totalQuantity;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }
 

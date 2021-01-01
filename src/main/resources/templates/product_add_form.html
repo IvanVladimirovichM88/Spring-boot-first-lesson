@@ -4,20 +4,17 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Каталог товаров</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <title>Добавить товаров</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
 </head>
 
 <body>
     <div class="container">
+        <div th:replace="~{fragments/navigation :: navigation(Products)}" />
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div th:replace="~{fragments/navigation :: navigation(Products)}" />
                 <h1>Добавить новый товар</h1>
-                <!--/*@thymesVar id="customer" type="com.geekbrains.spring.lesson6.entities.Product"*/-->
                 <form method="post" th:action="@{/products/add}" th:object="${product}">
                     <div class="form-group col-md-6">
                         <label for="title">Название</label>

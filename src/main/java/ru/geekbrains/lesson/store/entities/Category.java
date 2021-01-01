@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "category_tbl")
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")

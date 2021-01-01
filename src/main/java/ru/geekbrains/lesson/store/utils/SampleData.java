@@ -1,47 +1,47 @@
 package ru.geekbrains.lesson.store.utils;
 
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Component;
-import ru.geekbrains.lesson.store.entities.Category;
-import ru.geekbrains.lesson.store.entities.Customer;
-import ru.geekbrains.lesson.store.entities.Order;
-import ru.geekbrains.lesson.store.entities.Product;
-import ru.geekbrains.lesson.store.repositories.CategoryRepository;
-import ru.geekbrains.lesson.store.repositories.CustomerRepository;
-import ru.geekbrains.lesson.store.repositories.OrderRepository;
-import ru.geekbrains.lesson.store.repositories.ProductRepository;
+import ru.geekbrains.lesson.store.entities.*;
+import ru.geekbrains.lesson.store.repositories.*;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 
 @Component
 public class SampleData {
 
-    private CustomerRepository customerRepository;
+    private UserRepository userRepository;
     private ProductRepository productRepository;
     private OrderRepository orderRepository;
     private CategoryRepository categoryRepository;
+    private RoleRepository roleRepository;
 
     public SampleData(
-            CustomerRepository customerRepository,
+            UserRepository userRepository,
             ProductRepository productRepository,
             OrderRepository orderRepository,
-            CategoryRepository categoryRepository
+            CategoryRepository categoryRepository,
+            RoleRepository roleRepository
     ) {
 
-        this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
         this.categoryRepository = categoryRepository;
+        this.roleRepository = roleRepository;
     }
 
     @PostConstruct
     public void init() {
 
-        Category category1 = new Category("Fruit");
-        Category category2 = new Category("Meat");
+        Category category1 = new Category("Red Fruit");
+        Category category2 = new Category("Yellow Fruit");
+        Category category3 = new Category("Other");
+
 
         categoryRepository.save(category1);
         categoryRepository.save(category2);
+        categoryRepository.save(category3);
 
         Product product1 = new Product("Orange", 50.);
         Product product2 = new Product("Lemon", 70.);
@@ -53,34 +53,60 @@ public class SampleData {
         Product product8 = new Product("Chicken", 123.);
 
 
-//        category1.getProducts().add(product1);
-//        category1.getProducts().add(product2);
-//        category1.getProducts().add(product3);
 
-
+//
+//
         product1.setCategory(category1);
-        product2.setCategory(category1);
-        product3.setCategory(category1);
+        product2.setCategory(category2);
+        product3.setCategory(category3);
+        product4.setCategory(category1);
+        product5.setCategory(category2);
+        product6.setCategory(category3);
+        product7.setCategory(category1);
         product8.setCategory(category2);
 
+        Role role1 = new Role("ROLE_USER");
+        Role role2 = new Role("ROLE_ADMIN");
+        Role role3 = new Role("ROLE_SUPER_ADMIN");
+        Role role4 = new Role("ROLE_MANAGER");
 
-        Customer customer1 = new Customer("Alex");
-        Customer customer2 = new Customer("Alena");
-        Customer customer3 = new Customer("Filipp");
-        Customer customer4 = new Customer("Givi");
+        User user1 = new User("Alex");
+        user1.setUsername("alex");
+        //user1.setPassword("{bcrypt}$2y$12$kppL/79H63sx3NoXlZhY/uDW2EiB18ByX8YeENyFwyxAnHjrCT4pK");
+        user1.setPassword("$2y$12$XKU8JtljcLQlWaJM1mloweHz/RVUPCOLUAOtM1cDlgSlM4/Ndf6dO"); // 1
+        user1.getRoles().add(role1);
+        user1.getRoles().add(role2);
+        user1.getRoles().add(role3);
 
+        User user2 = new User("Alena");
+        user2.setUsername("alena");
+        //user2.setPassword("{bcrypt}$2y$12$kppL/79H63sx3NoXlZhY/uDW2EiB18ByX8YeENyFwyxAnHjrCT4pK");
+        user2.setPassword("$2y$12$XKU8JtljcLQlWaJM1mloweHz/RVUPCOLUAOtM1cDlgSlM4/Ndf6dO");
+        user2.getRoles().add(role1);
+        user2.getRoles().add(role4);
+
+        User user3 = new User();
+        user3.setUsername("anonymousUser");
+        user3.setName("anonymousUser");
+        user3.getRoles().add(role1);
 
         Order order1 = new Order();
         order1.setTotalPrice(product1.getPrice());
-        order1.setCustomer(customer1);
+        order1.setUser(user1);
         order1.setCode("0001");
 
         Order order2 = new Order();
         order2.setTotalPrice(product2.getPrice());
-        order2.setCustomer(customer2);
+        order2.setUser(user2);
         order2.setCode("0002");
 
+        OrderEntry orderEntry1 = new OrderEntry(product1, order1);
+        OrderEntry orderEntry2 = new OrderEntry(product2, order1);
+        OrderEntry orderEntry3 = new OrderEntry(product3, order1);
+        OrderEntry orderEntry4 = new OrderEntry(product4, order2);
+        OrderEntry orderEntry5 = new OrderEntry(product5, order2);
 
+//
         productRepository.save(product1);
         productRepository.save(product2);
         productRepository.save(product3);
@@ -89,16 +115,20 @@ public class SampleData {
         productRepository.save(product6);
         productRepository.save(product7);
         productRepository.save(product8);
+//
+        roleRepository.save(role1);
+        roleRepository.save(role2);
+        roleRepository.save(role3);
+        roleRepository.save(role4);
 
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
-        customerRepository.save(customer3);
-        customerRepository.save(customer4);
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
 
         orderRepository.save(order1);
         orderRepository.save(order2);
-
-
+//
+//
 
 
     }

@@ -7,4 +7,7 @@ public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(Long id, String details ){
         super("product with id: " + id + " doesn't exists " + "(" + details + ")");
     }
+    public ResourceNotFoundException(String named, Long id){
+        super( named + "product with id: " + id +" doesn't exists");
+    }
 }
