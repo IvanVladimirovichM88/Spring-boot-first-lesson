@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
 
-    <title>Каталог товаров</title>
+    <title>Категории товаров</title>
     <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
     <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
 </head>
@@ -30,7 +32,9 @@
             <td th:text="${category.title}"/>
             <td>
                 <a class="btn btn-success" th:href="@{'/admin/products?category_id='+${category.id}}">Показать товары</a>
-                <a class="btn btn-danger" th:href="@{'/admin/category/edit/'+${category.id}}">Переименовать</a>
+                <a class="btn btn-danger"
+                   sec:authorize = "hasAnyRole('ADMIN','SUPER_ADMIN')"
+                   th:href="@{'/admin/category/edit/'+${category.id}}">Переименовать</a>
             </td>
         </tr>
         </tbody>

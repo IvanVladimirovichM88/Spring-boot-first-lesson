@@ -53,6 +53,11 @@
                         th:classappend="${activeTab == 'Orders' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/admin/orders}">Заказы</a>
                 </li>
+                <li class="nav-item"
+                    sec:authorize = "hasAnyRole('SUPER_ADMIN')"
+                    th:classappend="${activeTab == 'Users' ? 'active' : ''}">
+                    <a class="nav-link" th:href="@{/admin/users}">Users</a>
+                </li>
             </ul>
         </div>
     </nav>

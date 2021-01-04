@@ -27,10 +27,10 @@ public class User extends AbstractItem{
     @Column(name = "name_fld")
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade ={CascadeType.REMOVE} )
     private List<Order> orders = new ArrayList<>();
 
-    @ManyToMany //(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -46,6 +46,16 @@ public class User extends AbstractItem{
     public User( String name) {
         this.enabled = true;
         this.name = name;
+
+    }
+
+    public User(UserData userData){
+        this.enabled = true;
+        this.name = userData.getName();
+        this.username = userData.getUsername();
+        if (userData.getId() != null){
+            this.id = userData.getId();
+        }
 
     }
 

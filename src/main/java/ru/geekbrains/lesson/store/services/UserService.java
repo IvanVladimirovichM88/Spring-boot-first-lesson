@@ -26,18 +26,19 @@ public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private RoleService roleService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     public User findByUsername(String username){
         return  userRepository.findByUsername(username);
     }
 
-    public User getCurrentUser(){
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+    public User getCurrentUser(Principal principal){
         System.out.println("UserService = "+ principal);
         System.out.println("userService name = " + principal.getName());
         return findByUsername(principal.getName());
@@ -55,16 +56,40 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public void authenticateUser(User user){
-        List<Role> roles = user.getRoles().stream().distinct().collect(Collectors.toList());
-        List<GrantedAuthority> authorities = roles.stream()
-                .map(p->new SimpleGrantedAuthority(p.getName()))
+    public User createUserWithRole(UserData userData){
+        User user = new User();
+        user.setName(userData.getName());
+        user.setUsername(userData.getUsername());
+        user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        Collection<Role> roles = userData.getRoles().stream()
+                .map(roleService::findByName)
                 .collect(Collectors.toList());
+        user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
+    public void authenticateUser(User user){
+        Collection<?extends GrantedAuthority> authorities = mapRolesToAuthorities(user.getRoles());
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 new org.springframework.security.core.userdetails.User(
-                        user.getUsername(), user.getPassword(), authorities),
+                        user.getUsername(),
+                        user.getPassword(),
+                        authorities),
                 null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+    public void remove(Long id){
+        userRepository.deleteById(id);
+    }
+
+    public void saveOrUpdate(User user){
+        userRepository.save(user);
     }
 
     @Override

@@ -15,6 +15,7 @@ import ru.geekbrains.lesson.store.services.ProductService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/cart")
@@ -64,8 +65,11 @@ public class CartController {
     }
 
     @GetMapping("/createOrder")
-    public String createOrder(Model model){
-        Order order = orderService.createOrder();
+    public String createOrder(
+            Principal principal,
+            Model model
+    ){
+        Order order = orderService.createOrder(principal);
         model.addAttribute("order",order);
         return "success";
     }

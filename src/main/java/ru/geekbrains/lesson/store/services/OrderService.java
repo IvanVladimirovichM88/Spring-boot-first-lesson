@@ -9,6 +9,7 @@ import ru.geekbrains.lesson.store.entities.Order;
 import ru.geekbrains.lesson.store.entities.User;
 import ru.geekbrains.lesson.store.repositories.OrderRepository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +35,10 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(){
+    public Order createOrder(Principal principal){
         Order order = new Order();
         order.setCode(UUID.randomUUID().toString().substring(0,4));
-        User user = userService.getCurrentUser();
+        User user = userService.getCurrentUser(principal);
         System.out.println("\n--->> createOrder user  = " + user);
         order.setUser(user);
         order.setTotalPrice(cartService.getTotalPrice());
