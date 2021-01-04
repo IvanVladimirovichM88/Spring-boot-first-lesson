@@ -28,11 +28,19 @@ public class ProductFilter {
 
         if(params.containsKey("max_price")&&!params.get("max_price").isEmpty()){
             Integer maxPrice = Integer.parseInt(params.get("max_price"));
-            specification = specification.and(ProductSpecification.priceGreaterOrEqualsThan(maxPrice));
+            specification = specification.and(ProductSpecification.priceLesserOrEqualsThan(maxPrice));
             filterDefinitionBuilder.append("&max_price=").append(maxPrice);
         }
+
+        if(params.containsKey("category_id")&&!params.get("category_id").isEmpty()){
+            Long categoryId = Long.parseLong(params.get("category_id"));
+            specification = specification.and(ProductSpecification.categoryIdEqualsThan(categoryId));
+            filterDefinitionBuilder.append("&category_id=").append(categoryId);
+        }
+
         filterDefinition = filterDefinitionBuilder.toString();
     }
+
 
     public Specification<Product> getSpecification() {
         return specification;

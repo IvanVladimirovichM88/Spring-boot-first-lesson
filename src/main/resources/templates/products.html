@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
 
-    <title>Каталог товаров</title>
+    <title >Каталог товаров</title>
     <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
     <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
 </head>
@@ -16,7 +18,7 @@
     <h1>Каталог товаров</h1>
 
     <h3>Фильтр</h3>
-    <form method="get" th:action="@{/products}">
+    <form method="get" th:action="@{/products}" >
         <div class="form-group col-md-6">
             <label for="titleInput">Название</label>
             <input class="form-control" th:value="${param.title != null ? param.title : null}" name="title" type="text" id="titleInput">
@@ -30,9 +32,13 @@
             <input class="form-control" th:value="${param.max_price != null ? param.max_price : null}" name="max_price" type="number" id="maxPriceInput">
         </div>
 
+        <input hidden="hidden" th:value="${param.category_id}" name="category_id" type="number">
+
         <button class="btn btn-primary" type="submit">Применить</button>
         <a class="btn btn-primary" th:href="@{/products}">Очистить фильтр</a>
-        <a class="btn btn-primary" th:href="@{/products/add}">Добавить новый товар</a>
+        <a class="btn btn-primary"
+           sec:authorize = "hasAnyRole('ADMIN','SUPER_ADMIN')"
+           th:href="@{/products/add}">Добавить новый товар</a>
     </form>
 
     <br>
@@ -40,19 +46,28 @@
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
+            <th>Категория</th>
             <th>Название</th>
             <th>Цена</th>
             <th>Дата создания</th>
             <th>Дата изменения</th>
+            <th>Действие</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="p : ${products}">
             <td th:text="${p.id}"/>
+            <td th:text="${p.category.title}"/>
             <td th:text="${p.title}"/>
-            <td th:text="#{products.price(${p.price})}"/>
+            <td th:text="#{text.products.price(${p.price})}"/>
             <td th:text="${{p.createDate}}"/>
             <td th:text="${{p.modifyDate}}"/>
+            <td>
+                <a class="btn btn-success" th:href="@{'/cart/add/' + ${p.id}}">В корзину</a>
+                <a class="btn btn-danger"
+                   sec:authorize = "hasAnyRole('ADMIN','SUPER_ADMIN')"
+                   th:href="@{'/products/edit/' + ${p.id}}">Изменить</a>
+            </td>
         </tr>
         </tbody>
     </table>

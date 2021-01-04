@@ -19,4 +19,9 @@ public class ProductSpecification {
                 criteriaBuilder.like(root.get("title"),String.format("%%%s%%",titlePart));
     }
 
+    public static Specification<Product> categoryIdEqualsThan(Long categoryId){
+        return (Specification<Product>) (root,criteriaQuary,criteriaBuilder)->
+                criteriaBuilder.equal(root.join("category").get("id"),categoryId);
+    }
+
 }

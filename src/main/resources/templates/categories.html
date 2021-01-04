@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Категории товаров</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Categories)}" />
+    <h1>Категории</h1>
+
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Наименоване</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"/>
+            <td th:text="${category.title}"/>
+            <td>
+                <a class="btn btn-success" th:href="@{'/admin/products?category_id='+${category.id}}">Показать товары</a>
+                <a class="btn btn-danger"
+                   sec:authorize = "hasAnyRole('ADMIN','SUPER_ADMIN')"
+                   th:href="@{'/admin/category/edit/'+${category.id}}">Переименовать</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>

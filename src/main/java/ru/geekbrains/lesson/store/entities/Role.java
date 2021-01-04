@@ -1,26 +1,23 @@
 package ru.geekbrains.lesson.store.entities;
 
+
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-@Table(name = "customer_tbl")
-public class Customer {
+@Table(name = "role_tbl")
+public class Role extends AbstractItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
+    @Column(name = "role_id")
     private Long id;
 
     @Column(name = "name_fld")
     private String name;
+///////////////////////////////////////////////////////////////////
+    public Role() {
+    }
 
-    @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
-    ///////////////////////////////////////////////////////
-
-    public Customer(){}
-
-    public Customer(String name){
+    public Role(String name) {
         this.name = name;
     }
 
@@ -38,13 +35,5 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 }

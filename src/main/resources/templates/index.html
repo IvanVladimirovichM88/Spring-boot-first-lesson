@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
@@ -11,71 +13,61 @@
 </head>
 
 <body>
+
 <div class="container">
     <div th:replace="~{fragments/navigation :: navigation(Index)}"/>
-    <h1>Главная страница</h1>
+    <div class="row">
+        <div class="col-lg-3">
+            <h1 class="my-4">Shop</h1>
+            <div class="list-group">
+                <a th:each="category : ${categories}" th:href="@{'/category/' + ${category.id}}" class="list-group-item" th:text="${category.title}"></a>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4" th:each="product : ${products}">
+                    <div class="card h-100">
+                        <a th:href="@{'/product/' + ${product.id}}">
 
-<!--    <br/>-->
-<!--    <h4>Variable:</h4>-->
-<!--    <div th:text="${name}"></div>-->
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <a th:href="@{'/product/' + ${product.id}}" th:text="${product.title}"></a>
+                            </h4>
+                            <h5 th:text="#{text.products.price(${product.price})}"></h5>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            <a class="btn btn-success" th:href="@{'/cart/add/' + ${product.id}}">В корзину</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 mb-12">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${products.isFirst() ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1}}">Назад</a>
+                            </li>
+                            <li class="page-item" th:classappend="${products.getNumber() + 1 == i ? 'active' : ''}"
+                                th:each="i : ${#numbers.sequence(1, products.getTotalPages())}">
+                                <a class="page-link" th:text="${i}" th:href="@{'?p=' + ${i}}"></a>
+                            </li>
+                            <li class="page-item"  th:classappend="${products.isLast() ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{'?p='+ ${products.nextOrLastPageable().getPageNumber() + 1}}">Вперед</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.col-lg-9 -->
+    </div>
 
-<!--    <br/>-->
-<!--    <h4>For:</h4>-->
-<!--    <div th:each="v : ${values}">-->
-<!--        <p th:text="${v}"></p>-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>Switch</h4>-->
-<!--    <div th:switch="${userRole}">-->
-<!--        <p th:case="'admin'">User is an administrator</p>-->
-<!--        <p th:case="'manager'">User is a manager</p>-->
-<!--        <p th:case="'staff'">User is a staff</p>-->
-<!--        <p th:case="*">User is some other thing</p>-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>Local variables</h4>-->
-<!--    &lt;!&ndash;/*@thymesVar id="firstName" type="java.lang.String"*/&ndash;&gt;-->
-<!--    &lt;!&ndash;/*@thymesVar id="lastName" type="java.lang.String"*/&ndash;&gt;-->
-<!--    <div th:with="firstName = 'Alena', lastName = 'Ivanova', fullName = ${firstName} +' ' + ${lastName}">-->
-<!--        First Name: <span th:utext="${firstName}"></span>-->
-<!--        <br>-->
-<!--        Last Name: <span th:utext="${lastName}"></span>-->
-<!--        <br>-->
-<!--        Full Name: <span th:utext="${fullName}"></span>-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>CSS</h4>-->
-<!--    <br/>-->
-<!--    <div th:class = "alert"-->
-<!--           th:classappend ="${isPrimary} ? 'alert-primary' : 'alert-danger'">-->
-<!--            Some Text-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>Maps</h4>-->
-<!--    <div>-->
-<!--        <p th:text="${params[car]}"></p>-->
-<!--        <p th:text="${params[bicycle]}"></p>-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>Aggregates</h4>-->
-<!--    <div>-->
-<!--        <h5>avg</h5>-->
-<!--        <span th:utext="${#aggregates.avg(values)}"></span>-->
-<!--        <h4>sum</h4>-->
-<!--        <span th:utext="${#aggregates.sum(values)}"></span>-->
-<!--    </div>-->
-
-<!--    <br/>-->
-<!--    <h4>Fragments</h4>-->
-<!--    &lt;!&ndash;    ~{/path-to-template/template-name :: selector} &ndash;&gt;-->
-<!--    <div>-->
-<!--        <span th:insert="~{fragments/fragment1 :: fragment1}"></span>-->
-<!--        <span th:replace="~{fragments/fragment2 :: fragment2('TITLE','NAME')}"></span>-->
-<!--    </div>-->
 </div>
 </body>

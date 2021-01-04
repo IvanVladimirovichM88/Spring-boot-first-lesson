@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Пользрватели</title>
+    <th:block th:replace="~{fragments/resources :: head/link}"></th:block>
+    <th:block th:replace="~{fragments/resources :: head/script}"></th:block>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{fragments/navigation :: navigation(Users)}" />
+    <h1>Пользователи</h1>
+
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${allUsers}">
+            <td th:text="${user.id}"/>
+            <td th:text="${user.username}"/>
+            <td th:text="${user.name}"/>
+            <td>
+                <a class="btn btn-danger"
+                   sec:authorize = "hasRole('SUPER_ADMIN')"
+                   th:href="@{'/admin/user/edit/' + ${user.id}}">Изменить</a>
+
+                <a class="btn btn-success"
+                   sec:authorize = "hasRole('SUPER_ADMIN')"
+                   th:href="@{'/admin/users/remove/' + ${user.id}}">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-success"
+       sec:authorize = "hasRole('SUPER_ADMIN')"
+       th:href="@{'/admin/user/add'}">Add user</a>
+
+</div>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.lesson.store.entities.Product;
 import ru.geekbrains.lesson.store.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,7 @@ public class ProductService {
     public Optional<Product> findById(Long id){
         return productRepository.findById(id);
     }
+
     public void deleteById(Long id){
         productRepository.deleteById(id);
     }
@@ -28,7 +30,16 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page,size));
     }
 
+    public List<Product> findAll(){
+        return productRepository.findAll();
+    }
+
     public Product addProduct(Product product){
         return productRepository.save(product);
     }
+
+    public void saveOrUpdate(Product product) {
+        productRepository.save(product);
+    }
+
 }
